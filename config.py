@@ -1,10 +1,10 @@
 import os
 
 
-DATABASE_URL = ''  # URL to your postgres database
 BASE_URL = ''  # hostname where application is deployed
 
 OWNER_NAME = ''  # github organization name
+# todo: refactor to be repo-independent
 REPO_NAME = ''  # github repository name
 
 GITHUB_API_BASE = 'https://api.github.com/'

@@ -3,8 +3,12 @@ FROM python:3.7.3-alpine
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk add --no-cache --update \
     build-base \
-    nc \
-    curl
+    gcc \
+    curl \
+    netcat-openbsd \
+    postgresql-dev \
+    libffi-dev \
+    && rm -rf /var/cache/apk/*
 
 RUN addgroup -S user && adduser -S user -G user
 
