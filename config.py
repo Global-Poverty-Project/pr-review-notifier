@@ -1,6 +1,6 @@
 import os
 
-
+# todo: add url to SSM or define here
 BASE_URL = ''  # hostname where application is deployed
 
 OWNER_NAME = ''  # github organization name

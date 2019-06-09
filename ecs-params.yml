@@ -23,6 +23,8 @@ task_definition:
           value_from: "PRN_GITHUB_CLIENT_SECRET"
         - name: SLACKBOT_TOKEN
           value_from: "PRN_SLACKBOT_TOKEN"
+        - name: DEFAULT_SLACK_CHANNEL
+          value_from: "PRN_DEFAULT_SLACK_CHANNEL"
 run_params:
   network_configuration:
     awsvpc_configuration:

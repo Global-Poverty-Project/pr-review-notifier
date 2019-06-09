@@ -52,15 +52,37 @@ $ docker push 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
 
 ### Deploy
 
-Push required environment variables to 
+Push required environment variables to [SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)
 
+```bash
+$ aws ssm put-parameter --name "PRN_OWNER_NAME" --value "<owner-name>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_REPO_NAME" --value "<repository-name>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_ACCESS_TOKEN" --value "<github-access-token>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_CLIENT_ID" --value "<github-client-id>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_CLIENT_SECRET" --value "<github-client-secret>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_SLACKBOT_TOKEN" --value "<slackbot-token>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_CHANNEL" --value "<slack-channel>" \
+    --type "String" --tags "Key=app,Value=prn"
+```
 
 ### Customization
 
-Override config variables for Heroku, e.g. setting custom bot icon
+Update channel to which messages will be delivered
 
 ```bash
-$ heroku config:set DEFAULT_SLACK_ICON=':octocat:'
+$ DEFAULT_SLACK_ICON=':octocat:'
+```
+
+Update bot icon
+
+```bash
+$ 
 ```
 
 ### Troubleshooting
