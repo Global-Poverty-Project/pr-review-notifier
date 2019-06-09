@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    image: 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
+    environment:
+      RUN_PORT: 8080
+      RUN_HOST: "0.0.0.0"
+    ports:
+      - "80:80"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: prn
+        awslogs-region: us-west-1
+        awslogs-stream-prefix: web
