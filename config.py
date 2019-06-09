@@ -21,6 +21,9 @@ DEFAULT_SLACK_ICON = ':baby_chick:'
 
 REQUIRED_APPROVES = 2  # amount of approved reviews for one pull request
 
+RUN_HOST = '127.0.0.1'
+RUN_PORT = 8080
+
 HEALTHCHECK_ENDPOINT = ''
 HEALTHCHECK_INTERVAL = 30 * 60
 
