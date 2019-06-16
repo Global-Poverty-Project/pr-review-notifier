@@ -71,6 +71,25 @@ $ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_CHANNEL" --value "<slack-chann
     --type "String" --tags "Key=app,Value=prn"
 ```
 
+Deploy to ECS Fargate
+
+```bash
+$ ecs-cli compose --project-name prn service up \
+    --create-log-groups \
+    --container-name "web" \
+    --container-port 8080 \
+    --target-group-arn "arn:aws:elasticloadbalancing:us-west-1:457398059321:targetgroup/storybook-gc-apps-tg/b32fb8a849a4051c" \
+    --cluster-config gc-apps
+```
+
+Update application after new version released (new Docker image was built)
+
+```bash
+$ ecs-cli compose --project-name prn service up \
+    --force-deployment \
+    --cluster-config gc-apps
+```
+
 ### Customization
 
 Update channel to which messages will be delivered
