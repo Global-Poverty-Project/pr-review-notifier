@@ -1,7 +1,7 @@
 import os
 
-# todo: add url to SSM or define here
-BASE_URL = ''  # hostname where application is deployed
+# hostname where application is deployed
+BASE_URL = 'http://prn.globalcitizen.org'
 
 OWNER_NAME = ''  # github organization name
 # todo: refactor to be repo-independent

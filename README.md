@@ -78,7 +78,7 @@ $ ecs-cli compose --project-name prn service up \
     --create-log-groups \
     --container-name "web" \
     --container-port 8080 \
-    --target-group-arn "arn:aws:elasticloadbalancing:us-west-1:457398059321:targetgroup/storybook-gc-apps-tg/b32fb8a849a4051c" \
+    --target-group-arn "arn:aws:elasticloadbalancing:us-west-1:457398059321:targetgroup/prn-gc-apps-tg/d85d5e98f02e83ec" \
     --cluster-config gc-apps
 ```
 

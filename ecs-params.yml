@@ -9,8 +9,6 @@ task_definition:
   services:
     web:
       secrets:
-        - name: BASE_URL
-          value_from: "PRN_BASE_URL"
         - name: OWNER_NAME
           value_from: "PRN_OWNER_NAME"
         - name: REPO_NAME
