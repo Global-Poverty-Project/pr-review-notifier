@@ -95,15 +95,17 @@ $ ecs-cli compose --project-name prn service up \
 Update channel to which messages will be delivered
 
 ```bash
-$ DEFAULT_SLACK_ICON=':octocat:'
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_CHANNEL" --value "#notifications" \
+    --type "String" --overwrite
 ```
 
 Update bot icon
 
 ```bash
-$ 
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_ICON" --value ":male-detective:" \
+    --type "String" --tags "Key=app,Value=prn"
 ```
 
 ### Troubleshooting
 
-
+* Check [logs on CloudWatch](https://us-west-1.console.aws.amazon.com/cloudwatch/home?region=us-west-1#logStream:group=prn)
