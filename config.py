@@ -1,10 +1,10 @@
 import os
 
-
-DATABASE_URL = ''  # URL to your postgres database
-BASE_URL = ''  # hostname where application is deployed
+# hostname where application is deployed
+BASE_URL = 'http://prn.globalcitizen.org'
 
 OWNER_NAME = ''  # github organization name
+# todo: refactor to be repo-independent
 REPO_NAME = ''  # github repository name
 
 GITHUB_API_BASE = 'https://api.github.com/'
@@ -20,6 +20,9 @@ DEFAULT_SLACK_BOT_NAME = 'gitbot'
 DEFAULT_SLACK_ICON = ':baby_chick:'
 
 REQUIRED_APPROVES = 2  # amount of approved reviews for one pull request
+
+RUN_HOST = '127.0.0.1'
+RUN_PORT = 8080
 
 HEALTHCHECK_ENDPOINT = ''
 HEALTHCHECK_INTERVAL = 30 * 60

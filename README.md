@@ -31,51 +31,81 @@ $ curl -v -H "Content-Type: application/json" \
     --data @test/payload_submitted.json http://localhost:8080/payload
 ```
 
+### Dockerized app
+
+Image is based on [Apline Linux](https://alpinelinux.org/).
+
+Create repository for application image
+
+```bash
+$ aws ecr create-repository --repository-name prn
+```
+
+Build image locally and push to the remote repository
+
+```bash
+$ $(aws ecr get-login --no-include-email --region us-west-1)
+$ docker build -t prn .
+$ docker tag prn:latest 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
+$ docker push 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
+```
+
 ### Deploy
 
-Deploy is done with a help of Heroku.
-
-Initialize remote for the first time
+Push required environment variables to [SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)
 
 ```bash
-$ heroku login
-$ heroku git:remote -a pr-review-notifier
-$ git remote -v | grep heroku
+$ aws ssm put-parameter --name "PRN_OWNER_NAME" --value "<owner-name>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_REPO_NAME" --value "<repository-name>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_ACCESS_TOKEN" --value "<github-access-token>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_CLIENT_ID" --value "<github-client-id>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_GITHUB_CLIENT_SECRET" --value "<github-client-secret>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_SLACKBOT_TOKEN" --value "<slackbot-token>" \
+    --type "String" --tags "Key=app,Value=prn"
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_CHANNEL" --value "<slack-channel>" \
+    --type "String" --tags "Key=app,Value=prn"
 ```
 
-Set all the required environment variables
+Deploy to ECS Fargate
 
 ```bash
-$ heroku config:set BASE_URL='https://<your-app-name>.herokuapp.com/'
-$ heroku config:set GITHUB_CLIENT_ID='<your-client-id>'
-$ heroku config:set GITHUB_CLIENT_SECRET='<your-client-secret>'
+$ ecs-cli compose --project-name prn service up \
+    --create-log-groups \
+    --container-name "web" \
+    --container-port 8080 \
+    --target-group-arn "arn:aws:elasticloadbalancing:us-west-1:457398059321:targetgroup/prn-gc-apps-tg/d85d5e98f02e83ec" \
+    --cluster-config gc-apps
 ```
 
-Do not forget to set env variables first in `.env` file or push them manually 
-([link](https://devcenter.heroku.com/articles/config-vars#setting-up-config-vars-for-a-deployed-application)).
-
-Trigger deployment with 
+Update application after new version released (new Docker image was built)
 
 ```bash
-$ poetry export -f requirements.txt
-$ make deploy
+$ ecs-cli compose --project-name prn service up \
+    --force-deployment \
+    --cluster-config gc-apps
 ```
 
 ### Customization
 
-Override config variables for Heroku, e.g. setting custom bot icon
+Update channel to which messages will be delivered
 
 ```bash
-$ heroku config:set DEFAULT_SLACK_ICON=':octocat:'
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_CHANNEL" --value "#notifications" \
+    --type "String" --overwrite
+```
+
+Update bot icon
+
+```bash
+$ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_ICON" --value ":male-detective:" \
+    --type "String" --tags "Key=app,Value=prn"
 ```
 
 ### Troubleshooting
 
-Useful commands to figure out what's going wrong
-
-```bash
-$ heroku logs  # show process output
-$ heroku restart  # restart application on remote
-$ heroku run bash  # login to the remote shell
-$ heroku buildpacks:remove heroku/nodejs  # remove unused buildpack
-```
+* Check [logs on CloudWatch](https://us-west-1.console.aws.amazon.com/cloudwatch/home?region=us-west-1#logStream:group=prn)

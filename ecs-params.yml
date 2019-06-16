@@ -1,0 +1,34 @@
+# https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli-compose-ecsparams.html
+version: 1
+task_definition:
+  task_execution_role: "ecsTaskExecutionRole"
+  ecs_network_mode: awsvpc
+  task_size:
+    mem_limit: 0.5GB
+    cpu_limit: 256  # (.25 vCPU)
+  services:
+    web:
+      secrets:
+        - name: OWNER_NAME
+          value_from: "PRN_OWNER_NAME"
+        - name: REPO_NAME
+          value_from: "PRN_REPO_NAME"
+        - name: GITHUB_ACCESS_TOKEN
+          value_from: "PRN_GITHUB_ACCESS_TOKEN"
+        - name: GITHUB_CLIENT_ID
+          value_from: "PRN_GITHUB_CLIENT_ID"
+        - name: GITHUB_CLIENT_SECRET
+          value_from: "PRN_GITHUB_CLIENT_SECRET"
+        - name: SLACKBOT_TOKEN
+          value_from: "PRN_SLACKBOT_TOKEN"
+        - name: DEFAULT_SLACK_CHANNEL
+          value_from: "PRN_DEFAULT_SLACK_CHANNEL"
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - "subnet-0c594c87a0555c8e8"
+        - "subnet-0273ce3d145ca59c3"
+      security_groups:
+        - "sg-01f919c37d28b6ff3"
+      assign_public_ip: ENABLED
