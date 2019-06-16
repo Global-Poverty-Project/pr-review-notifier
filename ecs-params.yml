@@ -1,11 +1,11 @@
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli-compose-ecsparams.html
 version: 1
 task_definition:
-  task_execution_role: ecsTaskExecutionRole
+  task_execution_role: "ecsTaskExecutionRole"
   ecs_network_mode: awsvpc
   task_size:
     mem_limit: 0.5GB
-    cpu_limit: 256
+    cpu_limit: 256  # (.25 vCPU)
   services:
     web:
       secrets:
@@ -29,8 +29,8 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-01b2b242a0c897986"
-        - "subnet-0dab08a7d5f391b0f"
+        - "subnet-0c594c87a0555c8e8"
+        - "subnet-0273ce3d145ca59c3"
       security_groups:
-        - "sg-01e2a21e47bf5f4a5"
+        - "sg-01f919c37d28b6ff3"
       assign_public_ip: ENABLED
