@@ -1,4 +1,3 @@
-import os
 import asyncio
 import base64
 from functools import partial
@@ -41,7 +40,9 @@ async def _handle_reviewed(data):
     issue_number = data['pull_request']['number']
     if state == 'approved':
         pr_title = data['pull_request']['title']
-        pr_ready_to_merge = await is_pr_approved(pr_title)
+        # pr_ready_to_merge = await is_pr_approved(pr_title)
+        # fixme: https://globalcitizen.tpondemand.com/entity/7023-gitbot-wrong-alerting
+        pr_ready_to_merge = False
         if pr_ready_to_merge:
             logger.info(f'We have {config.REQUIRED_APPROVES} approves '
                         f'for pr {pr_title}, removing label')
