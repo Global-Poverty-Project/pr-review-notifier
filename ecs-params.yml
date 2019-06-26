@@ -23,6 +23,8 @@ task_definition:
           value_from: "PRN_SLACKBOT_TOKEN"
         - name: DEFAULT_SLACK_CHANNEL
           value_from: "PRN_DEFAULT_SLACK_CHANNEL"
+        - name: DEFAULT_SLACK_ICON
+          value_from: "PRN_DEFAULT_SLACK_ICON"
 run_params:
   network_configuration:
     awsvpc_configuration:
