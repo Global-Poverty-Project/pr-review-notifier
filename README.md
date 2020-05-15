@@ -44,10 +44,13 @@ $ aws ecr create-repository --repository-name prn
 Build image locally and push to the remote repository
 
 ```bash
-$ $(aws ecr get-login --no-include-email --region us-west-1)
+$ aws ecr get-login-password \
+    --region us-east-1 | docker login \
+    --username AWS \
+    --password-stdin 457398059321.dkr.ecr.us-east-1.amazonaws.com/prn
 $ docker build -t prn .
-$ docker tag prn:latest 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
-$ docker push 457398059321.dkr.ecr.us-west-1.amazonaws.com/prn:latest
+$ docker tag prn:latest 457398059321.dkr.ecr.us-east-1.amazonaws.com/prn:latest
+$ docker push 457398059321.dkr.ecr.us-east-1.amazonaws.com/prn:latest
 ```
 
 ### Deploy
@@ -78,7 +81,7 @@ $ ecs-cli compose --project-name prn service up \
     --create-log-groups \
     --container-name "web" \
     --container-port 8080 \
-    --target-group-arn "arn:aws:elasticloadbalancing:us-west-1:457398059321:targetgroup/prn-gc-apps-tg/d85d5e98f02e83ec" \
+    --target-group-arn "arn:aws:elasticloadbalancing:us-east-1:457398059321:targetgroup/prn-gc-apps-tg/d85d5e98f02e83ec" \
     --cluster-config gc-apps
 ```
 
@@ -108,4 +111,4 @@ $ aws ssm put-parameter --name "PRN_DEFAULT_SLACK_ICON" --value ":male-detective
 
 ### Troubleshooting
 
-* Check [logs on CloudWatch](https://us-west-1.console.aws.amazon.com/cloudwatch/home?region=us-west-1#logStream:group=prn)
+* Check [logs on CloudWatch](https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=prn)
