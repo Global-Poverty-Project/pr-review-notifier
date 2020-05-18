@@ -15,5 +15,3 @@ jobs:
         - export PATH=$HOME/.poetry/bin:$PATH
       install:
         - poetry install
-      script:
-        - poetry run pytest -sv
