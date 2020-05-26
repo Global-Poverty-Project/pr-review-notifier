@@ -6,7 +6,7 @@ branches:
     - master
 language: python
 python:  # specify versions on which we want to test
-  - "3.5.4"
+  - "3.8"
 jobs:
   fast_finish: true
   include:
