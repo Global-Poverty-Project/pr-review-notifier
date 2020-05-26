@@ -1,2 +1,17 @@
-dist: xenial
+os: linux
+dist: bionic  # Ubuntu 18.04, support for Python 3.8 https://docs.travis-ci.com/user/reference/bionic/#python-support
+branches:
+  # build pull requests and pushes to these branches
+  only:
+    - master
 language: python
+python:  # specify versions on which we want to test
+  - "3.5.4"
+jobs:
+  fast_finish: true
+  include:
+    - stage: simple test
+      install:
+        - pip install flake8
+      script:
+        - flake8 --count
